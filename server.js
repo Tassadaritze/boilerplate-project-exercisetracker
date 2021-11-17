@@ -42,7 +42,9 @@ app.get("/api/users", (req, res) => {
 app.post("/api/users/:_id/exercises", bp.urlencoded({ extended: false }), (req, res) => {
     let exercise = req.body;
     exercise.date = new Date(exercise.date).toDateString();
-    if (exercise.date === "Invalid Date") exercise.date = Date.now().toDateString();
+    if (exercise.date === "Invalid Date") {
+        exercise.date = new Date(Date.now()).toDateString();
+    }
     User.updateOne({ _id: req.params._id }, {
             $inc: { count: 1 },
             $push: { log: req.body }
